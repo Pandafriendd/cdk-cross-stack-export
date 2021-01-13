@@ -1,7 +1,20 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
-import { CdkCrossStackStack } from '../lib/cdk-cross-stack-stack';
+import { IamStack } from '../lib/iam';
+import { Ec2Stack } from '../lib/ec2';
 
 const app = new cdk.App();
-new CdkCrossStackStack(app, 'CdkCrossStackStack');
+
+new IamStack(app, 'IamStack', {
+    env: {
+        account: process.env.CDK_DEFAULT_ACCOUNT,
+        region: process.env.CDK_DEFAULT_REGION,
+    },
+});
+new Ec2Stack(app, 'Ec2Stack', {
+    env: {
+        account: process.env.CDK_DEFAULT_ACCOUNT,
+        region: process.env.CDK_DEFAULT_REGION,
+    },
+});
